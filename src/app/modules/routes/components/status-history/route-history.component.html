@@ -1,0 +1,30 @@
+<div>
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="card-header">{{'STATUS_HISTORY'|translate}}</div>
+            <div *ngFor="let route of routeUpdateLog;let i=index;" class="log-entity"  appDebounceMouseEnter (debounceEnterEvent)="onLogItemHover(route,i)" [debounceTime]="500" >
+                <div><b>{{'STATUS_CHANGED'|translate}}</b> {{route.createdAt | date:"dd/MM/yyyy hh:mm a"}}</div>
+                <div>
+                    <span [class.badge-success]="route.oldStatus==='completed'"
+                          [class.badge-danger]="route.oldStatus==='rejected'"
+                          [class.badge-warning]="route.oldStatus==='delayed'" class="badge badge-secondary">{{ route.oldStatus?statusNames[route.oldStatus.toUpperCase()]:''}}</span>
+                    →
+                    <span [class.badge-success]="route.newStatus==='completed'"
+                          [class.badge-danger]="route.newStatus==='rejected'"
+                          [class.badge-warning]="route.newStatus==='delayed'" class="badge badge-secondary"> {{ route.newStatus?statusNames[route.newStatus.toUpperCase()]:''}}</span>
+                    <span *ngIf="route.updateFields && route.updateFields.completeNote"><br><b>{{'COMPLETE_NOTE'|translate}}: </b>{{route.updateFields.completeNote}}</span>
+
+                    <span *ngIf="route.updateFields && route.updateFields.rejectReason"><br><b>{{'REJECT_REASON'|translate}}: </b>{{route.updateFields.rejectReason}}</span>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <div  class="map-container" style="width:100%; height: 400px">
+                <div class="map-frame">
+                    <div id="map" #map ></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

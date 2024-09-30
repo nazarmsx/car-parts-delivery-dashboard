@@ -1,0 +1,45 @@
+<div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+
+            <div class="card">
+                <div class="card-header">
+                    {{ 'ADMINS' | translate }}
+
+                    <div class="btn-actions-pane-right">
+                        <a class="btn btn-primary btn-sm float-right" [routerLink]="['/add-user']">{{ 'ADD_ADMIN' | translate }}</a>
+                    </div>
+                </div>
+                <table class="table ">
+                    <thead class="">
+                    <tr>
+                        <th scope="col">{{ 'USERNAME' | translate }}</th>
+                        <th scope="col">{{ 'CREATED_AT' | translate }}</th>
+                        <th scope="col">{{ 'UPDATED_AT' | translate }}</th>
+                        <th scope="col">{{ 'ACTIONS' | translate }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let user of users">
+                        <td>{{user.login}}</td>
+                        <td>{{user.createdAt | date:"dd/MM/yyyy"}} {{user.createdAt | date:"hh:mm a"}}</td>
+                        <td>{{user.updatedAt | date:"dd/MM/yyyy"}} {{user.updatedAt | date:"hh:mm a"}}</td>
+                        <td> <button class="btn btn-primary btn-sm" (click)="edit(user)">{{ 'EDIT' | translate }}</button>&nbsp; &nbsp; <button class="btn btn-danger btn-sm" (click)="remove(user)">{{ 'REMOVE' | translate }}</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+        </div>
+        <div class="col-sm-12">
+            <ngb-pagination [collectionSize]="userCount" (pageChange)="onPageChange($event)" [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="true" [boundaryLinks]="true"></ngb-pagination>
+        </div>
+    </div>
+
+    <router-outlet></router-outlet>
+
+</div>

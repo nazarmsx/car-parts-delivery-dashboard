@@ -1,0 +1,84 @@
+
+.check-list-item{
+  padding-top:5px;
+  padding-bottom:5px;
+  padding-left: 1.85rem;
+}
+.check-list-item .form-check-input{
+  padding-left: 5px;
+}
+.check-list-item .form-check-label{
+}
+
+.check-list-item:hover{
+  background: #ebf2f9;
+}
+.form-check-label{
+  display: block;
+
+}
+
+.table{
+  table-layout: fixed;
+}
+.table td {
+  text-align: center;
+}
+
+td.driver-name{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+td.driver-name-filter{
+  text-align: center;
+
+}
+.noselect {
+  user-select: none;
+}
+
+th.car-number{
+  width: 130px;
+}
+td.car-number input{
+  width: 105px !important;
+}
+
+ng-select{
+  width: 300px;
+}
+th.driver-name{
+  width: 325px;
+}
+
+.form-group.hidden {
+  width: 0;
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+.form-group.hidden  .form-control{
+  padding: unset;
+  height: 0;
+  width: 0;
+}
+
+td.date-filter{
+  text-align: center;
+}
+td.date-filter .form-control {
+  width: 200px;
+}
+
+th.actions{
+  width: 130px;
+}
+
+th.doc-num{
+  width: 170px;
+}
+td.doc-num input{
+  width: 147px !important;
+}

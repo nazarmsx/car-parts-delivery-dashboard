@@ -1,0 +1,113 @@
+<div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    {{'ROUTES'|translate}}
+                </div>
+                <table class="table table-bordered">
+                    <thead class="">
+                    <tr>
+                        <th scope="col" class="driver-name">{{'DRIVER_NAME'|translate}}</th>
+                        <th class="doc-num">{{'DOC_NO_SHORT'|translate}}</th>
+                        <th scope="col" class="car-number">{{'CAR_NUMBER'|translate}}</th>
+                        <th scope="col">{{'STATUS'|translate}} </th>
+                        <th scope="col" class="noselect" (click)="toggleOrder('createdAt')">{{'CREATED_AT'|translate}}
+                            <i *ngIf="filter.orderField==='createdAt'"
+                               [ngClass]="{'fa-chevron-up':filter.order==='asc','fa-chevron-down':filter.order==='desc'}"
+                               class="pull-right fa fa-chevron-up"></i></th>
+                        <th scope="col" class="noselect" (click)="toggleOrder('updatedAt')">{{'UPDATED_AT'|translate}}
+                            <i *ngIf="filter.orderField==='updatedAt'"
+                               [ngClass]="{'fa-chevron-up':filter.order==='asc','fa-chevron-down':filter.order==='desc'}"
+                               class="pull-right fa fa-chevron-up"></i></th>
+                        <th scope="col" class="actions">{{'ACTIONS'|translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr [formGroup]="filterForm">
+                        <td class="driver-name-filter">
+
+                            <ng-select [items]="drivers$ | async"
+                                       bindLabel="fullName"
+                                       autofocus
+                                       formControlName="driverCode"
+                                       bindValue="driverCode"
+                            >
+                            </ng-select>
+                        </td>
+                        <td class="doc-num">
+                            <input class="form-control " style="width: auto;"
+                                   formControlName="docNo"
+                                   placeholder="{{'DOC_NO_SHORT'|translate}}">
+                        </td>
+                        <td class="car-number"><input class="form-control " style="width: auto;"
+                                                      formControlName="carLicensePlate"
+                                                      placeholder="{{'FILTER_BY_CAR'|translate}}"></td>
+                        <td>
+                            <div ngbDropdown class="d-inline-block" autoClose="false">
+                                <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                    {{'STATUS'|translate}}
+                                </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <div class="check-list-container">
+                                        <div class="form-check check-list-item"
+                                             *ngFor="let status of statuses;let i=index;">
+                                            <input class="form-check-input" [formControl]="status" type="checkbox"
+                                                   value="new" [id]="routeStatuses[i].id">
+                                            <label class="form-check-label" [for]="routeStatuses[i].id">
+                                                <span class="badge badge-secondary  "
+                                                      [ngClass]="routeStatuses[i].cssClass">{{routeStatuses[i].name}}</span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </td>
+                        <td class="date-filter">
+
+                            <date-picker [startDate]="filter.createdAtTo"  [endDate]="filter.createdAtFrom"  (rangeSelected)="onCreatedAtRangeSelected($event)"></date-picker>
+                        </td>
+
+                        <td ><date-picker [startDate]="filter.updatedAtTo"  [endDate]="filter.updatedAtFrom" (rangeSelected)="onUpdatedAtRangeSelected($event)"></date-picker></td>
+                        <td></td>
+                    </tr>
+                    <tr *ngFor="let route of routes">
+                        <td class="driver-name">{{route.driverSurname}} {{route.driverName}}</td>
+                        <td>
+                            {{route.docNo}}
+                        </td>
+                        <td class="card-number"><span class="license-plate">{{route.carLicensePlate}}</span></td>
+                        <td>
+                            <span [class.badge-success]="route.status==='completed'"
+                                  [class.badge-danger]="route.status==='rejected'"
+                                  [class.badge-warning]="route.status==='delayed'" class="badge badge-secondary">{{statusName[route.status?route.status.toUpperCase():'']}}</span>
+                        </td>
+
+                        <td>{{route.createdAt | date:"dd/MM/yyyy"}} {{route.createdAt | date:"h:mm a"}}</td>
+                        <td>{{route.updatedAt | date:"dd/MM/yyyy"}} {{route.updatedAt | date:"h:mm a"}}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" (click)="showDetails(route)">
+                                {{'SHOW_DETAILS'|translate}}
+                            </button>&nbsp; &nbsp;
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+        </div>
+        <div class="col-sm-12">
+            <ngb-pagination [collectionSize]="routesCount" (pageChange)="onPageChange($event)" [(page)]="page"
+                            [maxSize]="5" [rotate]="true" [ellipses]="true" [boundaryLinks]="true"></ngb-pagination>
+        </div>
+    </div>
+
+    <router-outlet></router-outlet>
+
+</div>

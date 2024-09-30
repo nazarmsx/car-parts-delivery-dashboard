@@ -1,0 +1,24 @@
+h1 {
+  color: darkblue;
+}
+
+a {
+  font-size: 20px;
+}
+.main-content{
+  margin-top: 45px;
+
+}
+
+.pr-4, .px-4 {
+  padding-right:3rem!important;
+  padding-left: 3rem!important;
+
+}
+.nav-link{
+  cursor: pointer;
+  user-select: none;
+}
+.nav-link-special.active:hover{
+  color: #007bff !important;
+}

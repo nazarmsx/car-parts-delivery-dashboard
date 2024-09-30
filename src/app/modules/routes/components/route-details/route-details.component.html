@@ -1,0 +1,144 @@
+<div>
+    <div class="row">
+        <div class="col-sm-4">
+
+            <div class="card">
+                <div class="card-header">
+                    {{'ROUTE_DETAILS'|translate}}
+                </div>
+                <form [formGroup]="routeForm">
+                    <table class="table   table-striped route-details" *ngIf="_route!=null">
+
+                        <tbody>
+                        <tr>
+                            <td>{{'DOC_NO'|translate}}</td>
+                            <td>{{_route.docNo}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'ROUTE_ID'|translate}}</td>
+                            <td>{{_route.id}}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{'CURRENT_STATUS'|translate}} <i class="fa fa-pencil edit-btn" (click)="edit()"></i>
+                            </td>
+                            <td>
+                            <span [class.badge-success]="_route.status==='completed'" *ngIf="editMode===false"
+                                  [class.badge-danger]="_route.status==='rejected'"
+                                  [class.badge-warning]="_route.status==='delayed'" class="badge badge-secondary">{{_route.status?statusNames[_route.status.toUpperCase()]:''}}</span>
+                                <ng-select [items]="statusesForSelect" *ngIf="editMode"
+                                           bindLabel="name"
+
+                                           formControlName="status"
+                                           bindValue="value"
+                                >
+                                </ng-select>
+                            </td>
+                        </tr>
+                        <tr *ngIf="_route.status==='completed'">
+                            <td>{{'COMPLETE_DATE'|translate}} ✔️</td>
+                            <td>{{_route.completeDate | date:"dd/MM/yyyy hh:mm a"}}</td>
+                        </tr>
+                        <tr *ngIf="_route.completeNote">
+                            <td>{{'COMPLETE_NOTE'|translate}}</td>
+                            <td>{{_route.completeNote}}</td>
+                        </tr>
+                        <tr *ngIf="_route.status==='rejected'">
+                            <td>{{'REJECT_DATE'|translate}} ❌</td>
+                            <td>{{_route.completeDate | date:"dd/MM/yyyy hh:mm a"}}</td>
+                        </tr>
+                        <tr *ngIf="_route.rejectReason">
+                            <td>{{'REJECT_REASON'|translate}}</td>
+                            <td>{{_route.rejectReason}}</td>
+                        </tr>
+
+                        <tr *ngIf="_route.rejectNote">
+                            <td>{{'REJECT_NOTE'|translate}}</td>
+                            <td>{{_route.rejectNote}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'DRIVER'|translate}}</td>
+                            <td>{{_route.driverSurname}} {{_route.driverName}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'VEHICLE'|translate}}</td>
+                            <td>
+                                <span class="license-plate">{{_route.carLicensePlate}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{'ADDRESS'|translate}}</td>
+                            <td>{{_route.address}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{'CONTACT_NAME'|translate}}</td>
+                            <td>{{_route.contactName}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'PHONE'|translate}}</td>
+                            <td>{{_route.phone}}</td>
+                        </tr>
+                        <tr *ngIf="_route.recipientSignature">
+                            <td>{{'SIGNATURE'|translate}}</td>
+                            <td><img class="recipient-signature" [src]="_route.recipientSignature" alt=""></td>
+                        </tr>
+
+                        <tr>
+                            <td>{{'CREATED_AT'|translate}}</td>
+                            <td>{{_route.createdAt | date:"dd/MM/yyyy hh:mm a"}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'UPDATED_AT'|translate}}</td>
+                            <td>{{_route.updatedAt | date:"dd/MM/yyyy hh:mm a"}}</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </form>
+                <div class="form-group">
+                    <button (click)="save()" *ngIf="editMode" [disabled]=" routeForm.invalid"
+                            class="btn btn-primary pull-right">{{ 'SAVE' | translate }}</button>
+                    <button class="mr-2 btn btn-link btn-sm pull-right" *ngIf="editMode"
+                            (click)="cancel()">{{ 'CANCEL' | translate }}</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <route-history [route]="_route" [routeId]="routeId" [statusNames]="statusNames"></route-history>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-header">
+                    {{'ATTACHMENTS'|translate}}
+                </div>
+                <div class="card-content">
+                    <span *ngIf="_route==null || !_route.images || _route.images.length===0">{{'NO_ATTACHMENTS'|translate}}</span>
+                    <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-header">
+                    {{'ITEMS'|translate}}
+                </div>
+                <table class="table   table-striped route-details">
+                    <tbody *ngIf="_route!=null && _route.items && _route.items.length">
+                    <tr *ngFor="let item of _route.items;let i=index;">
+                        <td>{{item.code}}</td>
+                        <td>{{item.name}}<span *ngIf="item.quantity!=null">, {{item.quantity}}</span> <span
+                                *ngIf="item.unitOfMeasure!=null"> {{item.unitOfMeasure}}</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="card-content" *ngIf="_route && (!_route.items || _route.items.length===0)">
+                    <span >{{'NO_ITEMS'|translate}}</span>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
