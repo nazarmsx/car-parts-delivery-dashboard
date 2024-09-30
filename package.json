@@ -1,7 +1,7 @@
 {
-  "name": "angular-7-webpack-4-boilerplate",
-  "version": "1.0.0",
-  "description": "Angular 7 application with webpack 4 boilerplate",
+  "name": "car-parts-delivery-dashboard",
+  "version": "1.0.1",
+  "description": "Car parts delivery dashboard",
   "scripts": {
     "webpack-dev": "cross-env NODE_ENV=development webpack --mode development",
     "webpack-prod": "cross-env NODE_ENV=production SERVER=prod webpack --mode production",
@@ -14,9 +14,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/samteb/Angular-7-Webpack-4.git"
+    "url": "https://github.com/nazarmsx/car-parts-delivery-dashboard"
   },
-  "author": "samteb <sam.teboul@gmail.com>",
+  "author": "Nazar C. <nazarmsx@ukr.net>",
   "license": "MIT",
   "homepage": "https://github.com/samteb/Angular-7-Webpack-4",
   "dependencies": {
