@@ -1,6 +1,6 @@
 {
   "name": "car-parts-delivery-dashboard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Car parts delivery control dashboard (Angular 21)",
   "scripts": {
@@ -10,10 +10,16 @@
     "build:dev": "ng build --configuration development",
     "build:prod": "ng build --configuration production",
     "build:stage": "ng build --configuration stage",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "watch": "ng build --watch --configuration development"
   },
   "packageManager": "npm@11.11.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nazarmsx/car-parts-delivery-dashboard"
+  },
+  "author": "Nazar C. <nazarmsx@ukr.net>",
+  "license": "MIT",
+  "homepage": "https://github.com/nazarmsx/car-parts-delivery-dashboard",
   "dependencies": {
     "@angular/animations": "^21.2.0",
     "@angular/common": "^21.2.0",
@@ -26,9 +32,9 @@
     "@angular/router": "^21.2.0",
     "@ng-bootstrap/ng-bootstrap": "^20.0.0",
     "@ng-select/ng-select": "^21.0.0",
-    "@popperjs/core": "^2.11.8",
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
+    "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
     "leaflet": "^1.9.4",
     "ngx-toastr": "^19.1.0",
