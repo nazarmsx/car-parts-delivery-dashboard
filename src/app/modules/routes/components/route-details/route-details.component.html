@@ -114,7 +114,11 @@
                 </div>
                 <div class="card-content">
                     <span *ngIf="_route==null || !_route.images || _route.images.length===0">{{'NO_ATTACHMENTS'|translate}}</span>
-                    <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+                    <div class="route-gallery" *ngIf="galleryImages.length">
+                      <a *ngFor="let img of galleryImages" [href]="img" target="_blank" rel="noopener noreferrer">
+                        <img [src]="img" alt="" class="route-gallery__thumb" />
+                      </a>
+                    </div>
 
                 </div>
             </div>

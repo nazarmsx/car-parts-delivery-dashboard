@@ -3,7 +3,8 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 @Directive({
-  selector: '[appDebounceMouseEnter]'
+  standalone: false,
+  selector: '[appDebounceMouseEnter]',
 })
 export class DebounceMouseEnterDirective implements OnInit, OnDestroy {
   @Input() debounceTime = 250;

@@ -10,8 +10,8 @@ export class HandledErrorsDescription{
 @Injectable({
   providedIn: 'root'
 })
-export class HttpHandledErrorDescription  extends  HandledErrorsDescription{
-  public getErrorDescription(error:HttpErrorResponse){
+export class HttpHandledErrorDescription extends HandledErrorsDescription {
+  public override getErrorDescription(error: HttpErrorResponse): string {
     if(error.error && error.error.error==='USER_ALREADY_EXIST'){
       return `User with such e-mail already exist.`;
     }

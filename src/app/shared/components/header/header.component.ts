@@ -8,6 +8,7 @@ import {Location} from "@angular/common";
 import {filter} from 'rxjs/operators';
 
 @Component({
+    standalone: false,
     selector: 'header-comp',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss']

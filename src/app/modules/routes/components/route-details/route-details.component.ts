@@ -1,18 +1,17 @@
-import {Component, ViewChild, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ApiService} from '../../../../services';
 import {first} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
 import {Location} from "@angular/common";
 import {Router, ActivatedRoute} from '@angular/router';
-import {Observable, Subject, merge, of} from 'rxjs';
-import {HttpHandledErrorDescription} from '../../../../helpers'
-import {Route, RouteStatus, Driver, RouteUpdateLog} from '../../../../models'
-import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
-import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import { HttpHandledErrorDescription } from '../../../../helpers';
+import { Route, RouteUpdateLog } from '../../../../models';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
+  standalone: false,
   selector: 'route-details',
   templateUrl: './route-details.component.html',
   styleUrls: ['./route-details.component.scss']
@@ -21,8 +20,7 @@ import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 export class RouteDetailsComponent implements OnInit {
   public _route: Route;
   public routeUpdateLog: RouteUpdateLog[] = [];
-  galleryOptions: NgxGalleryOptions[];
-  galleryImages: NgxGalleryImage[];
+  galleryImages: string[] = [];
   public statusNames:any={};
   public statusesForSelect: { name: string, value: string }[] = [];
   private statusUpdateMessage: string;
@@ -46,11 +44,6 @@ export class RouteDetailsComponent implements OnInit {
   }
 
   ngOnInit () {
-    this.galleryOptions = [
-      { "image": false, "thumbnailsRemainingCount": true, "height": "100px" },
-      { "breakpoint": 500, "width": "100%", "thumbnailsColumns": 2 }
-    ];
-
     this.routeForm = this.formBuilder.group({
           status: ['', Validators.required],
         }
@@ -65,10 +58,8 @@ export class RouteDetailsComponent implements OnInit {
             this._route = data;
             this.routeForm.controls.status.setValue(data.status);
 
-            if(data && data.images){
-              this.galleryImages=data.images.map(e=>{
-                return new NgxGalleryImage({big:e,small:e,medium:e});
-              })
+            if (data && data.images) {
+              this.galleryImages = data.images;
             }
           });
       this.apiService.getRouteUpdateLog(routeId)

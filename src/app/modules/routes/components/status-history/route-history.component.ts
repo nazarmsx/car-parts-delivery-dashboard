@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild, ElementRef} from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {ApiService} from '../../../../services';
 import {first} from 'rxjs/operators';
@@ -6,29 +6,26 @@ import {Location} from "@angular/common";
 import {Route, RouteStatus, RouteUpdateLog} from '../../../../models'
 import {map} from 'rxjs/operators';
 import * as L from 'leaflet';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
-const Icon = require("../../../../../assets/images/gps.png");
-const ActiveMarker = require("../../../../../assets/images/active-marker.png");
+const MAP_ICON_URL = 'assets/images/gps.png';
+const MAP_ACTIVE_ICON_URL = 'assets/images/active-marker.png';
 
 @Component({
+  standalone: false,
   selector: 'route-history',
   templateUrl: './route-history.component.html',
   styleUrls: ['./route-history.component.scss']
 })
 
-export class RouteHistoryComponent {
+export class RouteHistoryComponent implements OnInit, AfterViewInit {
   public routeUpdateLog: RouteUpdateLog[] = [];
   @Input() route: Route;
   @Input() routeId: string;
   @Input() statusNames: any;
-  @ViewChild("map")
-
-  public mapElement: ElementRef;
-  public readonly platform: any;
-  public map: any;
-  public markers:any[]=[];
-  private previousActiveMarkerIndex:number=null;
+  public map: L.Map | undefined;
+  public markers: L.Marker[] = [];
+  private previousActiveMarkerIndex: number | null = null;
   public routeChangedTranslation:string='';
 
   constructor (private formBuilder: FormBuilder, private apiService: ApiService, private location: Location,public translate: TranslateService) {
@@ -61,19 +58,29 @@ export class RouteHistoryComponent {
   }
 
   public addMarkersToMap(){
-    const iconOptions: any = {
-      iconUrl: Icon,
+    if (!this.map) {
+      return;
+    }
+    this.markers.forEach((m) => {
+      m.remove();
+    });
+    this.markers = [];
+    const iconOptions: L.IconOptions = {
+      iconUrl: MAP_ICON_URL,
       iconSize: [32, 32],
-      iconAnchor: [16, 31]
+      iconAnchor: [16, 31],
     };
     const customIcon = L.icon(iconOptions);
     this.routeUpdateLog.forEach(route=>{
-      let marker = L.marker([route.lat,route.lon], {icon: customIcon}).addTo(this.map);
+      let marker = L.marker([route.lat,route.lon], {icon: customIcon}).addTo(this.map!);
       this.markers.push(marker);
       marker.bindPopup(`<b>${this.routeChangedTranslation}:</b> <i>${route.oldStatus?this.statusNames[route.oldStatus.toUpperCase()]:''}</i> → <i>${route.newStatus?this.statusNames[route.newStatus.toUpperCase()]:''}</i>`);
     })
   }
   onLogItemHover(item:RouteUpdateLog,index:number){
+    if (!this.map || !this.markers[index]) {
+      return;
+    }
     if(this.previousActiveMarkerIndex!==null){
       const marker=this.markers[this.previousActiveMarkerIndex];
       marker.setIcon(this.getMarkerIcon(false));
@@ -86,16 +93,15 @@ export class RouteHistoryComponent {
     this.previousActiveMarkerIndex=index;
   }
   public getMarkerIcon(active:boolean=false){
-    const iconOptions: any = {
-      iconUrl: active?ActiveMarker:Icon,
+    const iconOptions: L.IconOptions = {
+      iconUrl: active ? MAP_ACTIVE_ICON_URL : MAP_ICON_URL,
       iconSize: [32, 32],
-      iconAnchor: [16, 31]
+      iconAnchor: [16, 31],
     };
     return L.icon(iconOptions);
   }
 
   public ngAfterViewInit () {
-
     this.map = L.map('map', {
       center: [50.44107, 30.523],
       zoom: 10
@@ -105,6 +111,9 @@ export class RouteHistoryComponent {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
     tiles.addTo(this.map);
+    if (this.routeUpdateLog.length) {
+      this.addMarkersToMap();
+    }
   }
 
 }

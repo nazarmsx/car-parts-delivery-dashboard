@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './shared/components/home/home.component';
-import {NgbModalModule ,NgbModule,} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './shared/components/header/header.component';
 
 import { UsersModule } from './modules/users/users.module';
@@ -16,11 +16,12 @@ import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TokenInterceptor } from './helpers';
-import '../assets/styles';
-import {SharedModule} from './shared/shared.module'
+import { SharedModule } from './shared/shared.module';
 import { registerLocaleData } from '@angular/common';
-import localeFr from '@angular/common/locales/de';
-registerLocaleData(localeFr, 'de');
+import localeDe from '@angular/common/locales/de';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader, TRANSLATE_HTTP_LOADER_CONFIG } from '@ngx-translate/http-loader';
+registerLocaleData(localeDe, 'de');
 
 
 @NgModule({
@@ -42,15 +43,22 @@ registerLocaleData(localeFr, 'de');
         BrowserAnimationsModule,
         ToastrModule.forRoot(),
         NgSelectModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateHttpLoader,
+          },
+        }),
         AuthModule,
         RoutesModule,
-      SharedModule
+        SharedModule,
     ],
     providers: [
+      {
+        provide: TRANSLATE_HTTP_LOADER_CONFIG,
+        useValue: { prefix: '/assets/i18n/', suffix: '.json' },
+      },
       { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    ],
-    entryComponents: [
-
     ],
     bootstrap: [
         AppComponent

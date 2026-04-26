@@ -108,9 +108,6 @@
   padding: 15px;
 }
 
-@import '~ngx-toastr/toastr';
-@import "~@ng-select/ng-select/themes/default.theme.css";
-
 .card{
   box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
   border-width: 0;
@@ -149,8 +146,6 @@ body{
 .btn{
   font-weight: 500;
 }
-@import "~leaflet/dist/leaflet.css";
-
 .license-plate{
   border: 1px solid black;
   padding: 0 5px 0 18px;

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { Location } from "@angular/common";
-import {Router, NavigationEnd} from "@angular/router";
+import { Location } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthenticationService } from './modules/auth/authentication.service';
 import { Admin } from './models';
-import 'hammerjs';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import {SettingsService} from './services/settings.service';
 import {filter} from 'rxjs/operators';
 
 @Component({
+    standalone: false,
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
@@ -17,7 +17,7 @@ import {filter} from 'rxjs/operators';
 export class AppComponent {
   route: string;
     private previousRoute: string;
-  currentUser: Admin;
+  currentUser: Admin | null = null;
 
     constructor(private location: Location, private router: Router, private authenticationService: AuthenticationService, public translate: TranslateService, public settingsService: SettingsService) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);

@@ -10,9 +10,19 @@ import {Admin} from '../../../../models'
 import {Observable, Subject, merge, of} from 'rxjs';
 import {HttpHandledErrorDescription} from '../../../../helpers'
 
-const randomize = require('randomatic');
+function generateRandomPassword(length: number): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const buf = new Uint32Array(length);
+  crypto.getRandomValues(buf);
+  let out = '';
+  for (let i = 0; i < length; i++) {
+    out += chars[buf[i] % chars.length];
+  }
+  return out;
+}
 
 @Component({
+  standalone: false,
   selector: 'edit-user',
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.scss']
@@ -131,7 +141,7 @@ export class EditUserComponent {
   }
 
   generatePassword () {
-    this.userForm.controls.password.setValue(randomize('Aa0', 16));
+    this.userForm.controls.password.setValue(generateRandomPassword(16));
   }
 
 }

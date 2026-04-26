@@ -8,6 +8,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
+    standalone: false,
     selector: 'settings',
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss']

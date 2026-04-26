@@ -11,6 +11,7 @@ import {TranslateService, LangChangeEvent} from '@ngx-translate/core';
 import {NgbDate, NgbCalendar, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
+    standalone: false,
   selector: 'routes',
   templateUrl: './routes.component.html',
   styleUrls: ['./routes.component.scss']

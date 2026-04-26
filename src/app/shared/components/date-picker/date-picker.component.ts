@@ -14,48 +14,49 @@ import {EventEmitter} from '@angular/core';
 
 @Injectable()
 export class CustomDatepickerI18n extends NgbDatepickerI18n {
-  public weekdays: string[];
-  public months: string[];
+  public weekdays: string[] = [];
+  public months: string[] = [];
 
-  constructor (public translate: TranslateService) {
+  constructor(public translate: TranslateService) {
     super();
     this.loadTranslations();
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.loadTranslations()
+    this.translate.onLangChange.subscribe((_event: LangChangeEvent) => {
+      this.loadTranslations();
     });
   }
 
-  private loadTranslations(){
+  private loadTranslations() {
     this.translate.get('WEEKDAYS').subscribe((res) => {
-      this.weekdays = Object.keys(res).map(key=>res[key]);
+      this.weekdays = Object.keys(res).map((key) => res[key]);
     });
     this.translate.get('MONTHS').subscribe((res) => {
-      this.months = Object.keys(res).map(key=>res[key]);
-    })
+      this.months = Object.keys(res).map((key) => res[key]);
+    });
   }
 
-  getWeekdayShortName (weekday: number): string {
-    return this.weekdays[weekday - 1];
+  override getWeekdayLabel(weekday: number, _width?: 'long' | 'short' | 'narrow'): string {
+    return this.weekdays[weekday - 1] ?? '';
   }
 
-  getMonthShortName (month: number): string {
-    return this.months[month - 1];
+  override getMonthShortName(month: number): string {
+    return this.months[month - 1] ?? '';
   }
 
-  getMonthFullName (month: number): string {
+  override getMonthFullName(month: number): string {
     return this.getMonthShortName(month);
   }
 
-  getDayAriaLabel (date: NgbDateStruct): string {
+  override getDayAriaLabel(date: NgbDateStruct): string {
     return `${date.day}-${date.month}-${date.year}`;
   }
 }
 
 @Component({
+  standalone: false,
   selector: 'date-picker',
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss'],
-  providers: [{provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}]
+  providers: [{ provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n }],
 })
 export class DatePickerComponent {
   @ViewChild("datepicker")

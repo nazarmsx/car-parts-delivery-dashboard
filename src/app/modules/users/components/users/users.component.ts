@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']

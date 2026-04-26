@@ -20,7 +20,10 @@ const appRoutes: Routes = [
     { path: 'edit-user/:id', component: EditUserComponent,canActivate: [AuthGuard] },
     { path: 'settings', component: SettingsComponent,canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
-    { path: 'menu', loadChildren: './modules/menu/menu.module#MenuModule' }
+    {
+      path: 'menu',
+      loadChildren: () => import('./modules/menu/menu.module').then((m) => m.MenuModule),
+    },
 ];
 
 @NgModule({
